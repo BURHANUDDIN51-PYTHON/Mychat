@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %} Home Page {% endblock %}
+
+{% block script %}
+    <script src="{% static './index.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    {{ rooms_list |json_script:"room-data"}}
+    <div class="w-50 p-3 h-50 position-absolute top-50 start-50 translate-middle">
+        {% for message in messages %}
+            <div class="p-3 mb-2 bg-success text-white rounded-2" id="message">{{ message }}</div>
+        {% endfor %}
+        <h2 class="text-center mb-3 ">Join Or Create Room </h2>
+        <div class="container">
+        <div class="container" id="room-select">
+            <label for="room-name" class="form-label">Join Room:</label>
+            <select class="form-select" id="room-name" >
+                <option selected disabled value="">Choose Room</option>
+                {% for room in rooms_list %}
+                    <option value="{{ room.name }}">{{ room.name}}</option>
+                {% endfor %}
+                <option value="new-room" id="create-room">Create a new room</option>
+            </select>
+        </div>
+            <button id="submit" class="btn btn-outline-secondary my-3 mx-2" type="button">Join Room</button>
+        </div>
+        
+    </div>
+{% endblock %}
+

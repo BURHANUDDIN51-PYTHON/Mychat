@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+
+{% block title %} Login {% endblock %}
+
+
+{% block content %}
+<div class="w-50 p-3 h-50 position-absolute top-50 start-50 translate-middle">
+  <h1 class="text-center">Log In The User</h1>
+  <div class="container">
+      {% for message in messages %}
+        <div class="p-3 mb-2 bg-danger text-white rounded-2">{{ message }}</div>
+      {% endfor %}
+  </div>
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label" for="username" >Username</label>
+        <input type="text" class="form-control" name="username" id="username">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="password">Password</label>
+        <input type="password" class="form-control" name="password" id="password">
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+</div>
+{% endblock %}

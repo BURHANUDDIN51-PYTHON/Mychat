@@ -1,0 +1,64 @@
+<!-- chat/templates/chat/room.html -->
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %} Room {% endblock %}
+
+
+{% block script %}
+    {{ room_name|json_script:"room-name" }}
+    {{ request.user.username|json_script:'username'}}
+    {{ request.user.id|json_script:'user_id'}}
+    <script src="{% static './room.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="main-container my-2">
+    {% for message in messages %}
+        <div class="p-3 mb-2 bg-success text-white rounded-2" id="message-box">{{ message }}</div>
+    {% endfor %}
+    <div class="chat-header">
+        <h2>Chat Room</h2>
+        <button class="leave-chat">
+            <a href="{% url 'index' %}" style="text-decoration: none; color: white">
+                Leave Room</a>
+        </button>
+    </div>
+    <div class="chat-container">
+        <div class="chat-log" id="chat-log">
+            <!-- All the chats will be rendered here -->
+            {% for message in room_messages %}
+                {% if request.user.id == message.sent_by.id %}
+                    <div class="message receiver-message">
+                        <div>
+                            
+                            <span>{{ message.message }}</span>
+                        </div>
+                        <div class="message-time">
+                            <span><small>{{ message.timeStamp|timesince }} ago...</small></span>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="message sender-message">
+                        <div>
+                            <span><small>{{ message.sent_by.username}}:</small></span>
+                        </div>
+                        
+                        <div>
+                            <span>{{ message.message }}</span>
+                        </div>
+                        <div class="message-time">
+                            <span><small>{{ message.timeStamp|timesince }} ago...</small></span>
+                        </div>
+                    </div> 
+                {% endif %}
+            {% endfor %}
+    </div>
+        <div class="send-message">
+            <input id="chat-message-input" type="text" placeholder="Type Your message here..." ><br>
+            <button id="chat-message-submit" type="button">Send</button>
+        </div>
+    </div>
+</div>
+    
+{% endblock %}
