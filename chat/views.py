@@ -32,7 +32,6 @@ def room(request, room_name):
     
      # if Not create one and then open it 
     room = Room.objects.create(name=room_name, created_by=user)
-    room.number_of_users.add(user)
     room.save()
     messages.success(request, 'Room Created Successful')
     return render(request, "chat/room.html", {"room_name": room_name})
