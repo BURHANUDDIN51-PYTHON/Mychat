@@ -19,6 +19,7 @@
     {% endfor %}
     <div class="chat-header">
         <h2>Chat Room</h2>
+        <div id="users-online">Users Online:</div>
         <button class="leave-chat">
             <a href="{% url 'index' %}" style="text-decoration: none; color: white">
                 Leave Room</a>
@@ -43,8 +44,9 @@
                         <div>
                             <span><small>{{ message.sent_by.username}}:</small></span>
                         </div>
-                        
+                        <hr style="width: 100%; margin: 0;">
                         <div>
+                            
                             <span>{{ message.message }}</span>
                         </div>
                         <div class="message-time">

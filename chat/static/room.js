@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputMessage = document.getElementById('chat-message-input')
     const submitMessage = document.getElementById('chat-message-submit')
     const chatLog = document.getElementById('chat-log')
-    
+    const usersOnline = document.getElementById('users-online')
     // scroll to bottom
     function scrollToBottom() {
         chatLog.scrollTop = chatLog.scrollHeight;
@@ -96,6 +96,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 `  
                 
             } 
+        } else if (data.type == 'user_count'){
+            console.log(data)
+            usersOnline.innerHTML = `Users Online: ${data.count}`
         }
         scrollToBottom();
     }
@@ -125,7 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
     chatSocket.onclose = (e) => {console.log("Chat Socket connection closed")}
 
 
-    
+    inputMessage.onkeyup = function(e){e.key == 'Enter' ? submitMessage.click(): ""}
+
     submitMessage.onclick =  (e) => {
         // Checks
         if (inputMessage.value === '') {
@@ -145,7 +149,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         chatSocket.send(JSON.stringify(sendData))
     }
-  
+    
+    inputMessage.onblur = function(e){
+        let tmpInfo = document.querySelector('.tmp-info')
+
+            if (tmpInfo) {
+                tmpInfo.remove()
+            }
+    }
 
    
 })
