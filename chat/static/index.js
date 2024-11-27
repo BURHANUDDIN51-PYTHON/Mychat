@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // If the user select on of the existing groups 
     roomName.addEventListener('change', () => {
         if (roomName.value == 'new-room'){
-            roomName.value = "";
+            roomName.value == ""
             create();
             isCreate = true;
         }
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `
         <div class="mb-3">
             <label for="room-name" class="form-label">Create Room:</label>
-            <input type="text" class="form-control" id="room-name" placeholder="Create Room">
+            <input type="text" class="form-control" id="enter-room" placeholder="Create Room">
         </div>
         `
     }
@@ -29,21 +29,34 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', (e) => {
        
         var roomData = JSON.parse(document.getElementById('room-data').textContent)
+
+        // This thing is going to be two way one way when user enter a existing room and another when the user creates one
+
+        // When the user opt for creating a new room
+        if (isCreate){
+            var enterRoom = document.getElementById('enter-room')
+            var enterRoomValue = enterRoom.value.trim()
+            if (enterRoomValue === ''){
+                alert('Please select a room or Enter a valid Room')
+                return;
+            }
+            var exists = roomData.some(room => room.name === enterRoomValue)
+            if (exists){
+                alert('Room already exists')
+                enterRoom.value = ""
+                return; 
+            }  
+            console.log(enterRoom.value)
+            window.location.pathname = '/chat_room/' + enterRoomValue + '/';
+            return;
+        }
+
+        // When a user enters an existing room
         var roomNameValue = roomName.value.trim()
-        console.log(roomData)
         if (roomNameValue === ''){
             alert('Please select a room or Enter a valid Room')
             return;
         }
-        if (isCreate){
-            var exists = roomData.some(room => room.name === roomNameValue)
-            if (exists){
-                alert('Room already exists')
-                roomName.value = ""
-                return;
-            }   
-        }
-
         window.location.pathname = '/chat_room/' + roomNameValue + '/';
     })
 

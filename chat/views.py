@@ -21,9 +21,9 @@ def room(request, room_name):
     # Check if the room exist then just re_open it 
     room_exists = Room.objects.filter(name=room_name).exists()
     room = Room.objects.filter(name=room_name).first()
-    messagesQuery = room.messages.all()
     user = request.user
     if room_exists:
+        messagesQuery = room.messages.all()
         messages.success(request, 'Room Joined Succesfully')
         return render(request, "chat/room.html", {
             "room_name": room_name,
